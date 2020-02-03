@@ -14,23 +14,29 @@ class Cars extends Component {
 };
 
 componentDidMount() {
-    this.props.loadCarsData()
+    this.props.loadCarsData(this.state.page, this.state.per_page)
+};
+
+componentDidUpdate(prevProps, prevState) {
+  if (prevState.page !== this.state.page || prevState.per_page !== this.state.per_page) {
+    this.props.loadCarsData(this.state.page, this.state.per_page)
+  }
 };
 
 onItemClick = car => {
   if (!car) return null;
-  const img = car.images.slice(0,5)
-  this.setState({
-    images: img
+   const img = car.images.slice(0,5)
+   this.setState({
+      images: img
   });
 };
 
 handleChangePage = (event, page) => {
-  this.setState({ page });
+    this.setState({ page });
 };
 
 handleChangeRowsPerPage = event => {
-  this.setState({ per_page: event.target.value });
+    this.setState({ per_page: event.target.value });
 };
 
 render(){
@@ -55,7 +61,7 @@ render(){
                      ))}
                    </TableRow>
                  </TableHead>
-                    {cars.slice(page * per_page , page * per_page + per_page).map(car =>
+                    {cars.map(car =>
                      <TableBody
                          key={car.id}>
                        <TableItem
@@ -66,9 +72,9 @@ render(){
               </Table>
           </TableContainer>
          <TablePagination
-              rowsPerPageOptions={[10, 25, 50]}
+              rowsPerPageOptions={[10, 25, 45]}
               component="div"
-              count={cars.length}
+              count={this.props.x_total_count}
               page={page}
               rowsPerPage={per_page}
               onChangePage={this.handleChangePage}
@@ -89,8 +95,8 @@ render(){
     };
 };
 
-const mapStateToProps = ({ cars, cars_loading }) => {
-    return { cars, cars_loading };
+const mapStateToProps = ({ cars, cars_loading, x_total_count }) => {
+    return { cars, cars_loading, x_total_count };
 };
 
 const columns = [

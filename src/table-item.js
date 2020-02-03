@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import { TableRow, TableCell, Link } from '@material-ui/core';
+import { TableRow, TableCell, Link, CircularProgress } from '@material-ui/core';
 
 const TableItem = ({ car, onItemClick }) => {
   const { model, brand, grade, vin, dealer } = car;
-  const { name, email } = dealer;
+  const { name, email } = dealer === undefined ? {} : dealer
 
   return (
     <Fragment>
@@ -14,12 +14,15 @@ const TableItem = ({ car, onItemClick }) => {
                 <TableCell align="center" style={{minWidth: 50}}>{model}</TableCell>
                 <TableCell align="center" style={{minWidth: 50}}>{grade}</TableCell>
                 <TableCell align="center" style={{minWidth: 100}}>{vin}</TableCell>
+                {dealer == null || Object.keys(dealer).length === 0 ? 
+                <TableCell align="right" style={{minWidth: 100}}><CircularProgress color="secondary"/></TableCell>
+                :
                 <TableCell align="right" style={{minWidth: 100}}>
                   {name.match(/_$/ig) ? name.slice(0,-1): name}<br/>
                    <Link href={email}>
                         {email}
                    </Link>                   
-                </TableCell>
+                </TableCell>}
         </TableRow>
     </Fragment>
   );
