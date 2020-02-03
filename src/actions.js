@@ -39,7 +39,7 @@ export const mergeData = (car, ...dealers) => {
         grade: car.grade,
         vin: car.vin,
         images: car.images,
-        dealer: dealers[0] == undefined ? {} : dealers[0].find(e => e.id === car.dealer)
+        dealer: dealers[0] === undefined ? undefined : dealers[0].find(e => e.id === car.dealer)
     };
 };
 
