@@ -1,0 +1,21 @@
+body{
+    background-color: lightgray;
+}
+
+img{
+    border: gray 3px solid;
+    padding: 5px;
+    margin-right: 5px;
+    margin-top: auto;
+}
+
+img:hover{
+    -webkit-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+    padding: 0px;
+}
+
+.all-img{
+    text-align: center;
+}
