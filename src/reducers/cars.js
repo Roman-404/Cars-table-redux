@@ -1,12 +1,14 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 
+
+// CARS REDUCER
 const initState = {
     cars: [],
     cars_loading: true,
     x_total_count: 0
 };
 
-const reducer = (state=initState, action) => {
+const carsData = (state=initState, action) => {
     switch (action.type) {
         case actionTypes.CARS_LOADED:
             return {
@@ -19,4 +21,4 @@ const reducer = (state=initState, action) => {
     };
 };
 
-export default reducer;
+export default carsData;

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as actions from './actions';
 import TableItem from './table-item';
-import { Paper, Table, TableHead, TableRow, TableContainer, TableCell, TablePagination, TableBody, LinearProgress } from '@material-ui/core';
+import { Paper, Table, TableHead, TableRow, TableContainer,
+   TableCell, TablePagination, TableBody, LinearProgress } from '@material-ui/core';
 import './styles.css'
 
 
@@ -14,13 +15,14 @@ class Cars extends Component {
 };
 
 componentDidMount() {
-    this.props.loadCarsData(this.state.page, this.state.per_page)
+    this.props.loadCarsData(this.state.page, this.state.per_page, this.props.dealers)
+    this.props.loadDealersData(50) //  workaround
 };
 
 componentDidUpdate(prevProps, prevState) {
-  if (prevState.page !== this.state.page || prevState.per_page !== this.state.per_page) {
-    this.props.loadCarsData(this.state.page, this.state.per_page)
-  }
+  if (prevState.page !== this.state.page || prevState.per_page !== this.state.per_page || prevProps.dealers !== this.props.dealers) {
+    this.props.loadCarsData(this.state.page, this.state.per_page, this.props.dealers)
+  };
 };
 
 onItemClick = car => {
@@ -42,6 +44,7 @@ handleChangeRowsPerPage = event => {
 render(){
     const {images, page, per_page} = this.state
     const {cars, cars_loading} = this.props
+    console.log(this.props)
     return (
     <div>
         <h1 style={{color: 'red', textAlign: 'center'}}>Cars</h1>
@@ -95,8 +98,13 @@ render(){
     };
 };
 
-const mapStateToProps = ({ cars, cars_loading, x_total_count }) => {
-    return { cars, cars_loading, x_total_count };
+const mapStateToProps = state => {
+    return {
+      cars: state.carsData.cars,
+      x_total_count: state.carsData.x_total_count,
+      cars_loading: state.carsData.cars_loading,
+      dealers: state.dealersData.dealers
+    }
 };
 
 const columns = [

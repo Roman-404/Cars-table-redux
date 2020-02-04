@@ -1,2 +1,4 @@
-// ACTION TYPES
+// CARS
 export const CARS_LOADED = 'CARS_LOADED';
+// DEALERS
+export const DEALERS_LOADED = 'DEALERS_LOADED';
