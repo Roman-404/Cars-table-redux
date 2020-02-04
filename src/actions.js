@@ -17,11 +17,68 @@ export const getDealers = value => {
     };
 };
 
+export const setNewDealers = value => {
+    return {
+        type: actionTypes.UPDATE_DEALERS,
+        payload: value
+    };
+};
+
+export const getNewDealers = async id => {
+   try{
+        const response = await axios.get(`https://jlrc.dev.perx.ru/carstock/api/v1/dealers/${id}`)
+        const dealer = response.data
+        return dealer
+    }
+    catch(error){
+        return console.log(error)
+    };
+};
+
 export const createDealer = value => {
     return {
         id: value.id,
         name: value.name,
         email: value.url
+    };
+};
+
+export const updateDealersData = (page, per_page, dealers) => {
+    return dispatch => {
+        axios.get("https://jlrc.dev.perx.ru/carstock/api/v1/vehicles/?state=active&hidden=false&group=new", {
+            headers: {'X-CS-Dealer-Id-Only' : '1'},
+            params: {
+                page: page,
+                per_page: per_page
+            }
+        })
+        .then(response => {
+            return {
+                data: response.data,
+                dealers: dealers
+            }
+        })
+        .then(response => {
+            const data = response.data
+            const dealers = response.dealers
+            const cars_dealers_id = data.map(value => value.dealer).filter(e => e != null)
+            const dealers_id = dealers.map(value => value.id).filter(e => e != null)
+            const filter_dealers = dealers_id.filter(i => !cars_dealers_id
+                .includes(i)).concat(cars_dealers_id.filter(i => !dealers_id.includes(i)));
+            const new_dealers_id = [...new Set([...filter_dealers, ...cars_dealers_id])]
+
+            if (new_dealers_id) {
+                Promise.all(new_dealers_id.map(id => getNewDealers(id))).then(
+                    response => {
+                        const new_dealers = response.map(e => createDealer(e))
+                        return new_dealers
+                    }
+                ).then(response => {
+                dispatch(setNewDealers(response));
+                })
+            }
+        })
+        .catch(error => console.log(error));
     };
 };
 

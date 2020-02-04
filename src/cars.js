@@ -16,13 +16,18 @@ class Cars extends Component {
 
 componentDidMount() {
     this.props.loadCarsData(this.state.page, this.state.per_page, this.props.dealers)
-    this.props.loadDealersData(50) //  workaround
+    this.props.loadDealersData(this.state.per_page)
 };
 
 componentDidUpdate(prevProps, prevState) {
-  if (prevState.page !== this.state.page || prevState.per_page !== this.state.per_page || prevProps.dealers !== this.props.dealers) {
-    this.props.loadCarsData(this.state.page, this.state.per_page, this.props.dealers)
+  const { page, per_page } = this.state
+  const { dealers } = this.props
+  if (prevState.page !== page || prevState.per_page !== per_page || prevProps.dealers !== dealers) {
+    this.props.loadCarsData(page, per_page, dealers)
   };
+  if (prevState.page !== page || prevState.per_page !== per_page) {
+    this.props.updateDealersData(page, per_page, dealers)
+  }
 };
 
 onItemClick = car => {
@@ -44,7 +49,6 @@ handleChangeRowsPerPage = event => {
 render(){
     const {images, page, per_page} = this.state
     const {cars, cars_loading} = this.props
-    console.log(this.props)
     return (
     <div>
         <h1 style={{color: 'red', textAlign: 'center'}}>Cars</h1>

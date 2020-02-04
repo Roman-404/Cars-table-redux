@@ -12,6 +12,10 @@ const dealersData = (state=initState, action) => {
             return {
                 dealers: action.payload,
             }
+        case actionTypes.UPDATE_DEALERS:
+            return {
+                dealers: action.payload
+            }
         default:
             return state;
     };
