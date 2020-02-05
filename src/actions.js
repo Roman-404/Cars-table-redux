@@ -37,9 +37,9 @@ export const getNewDealers = async id => {
 
 export const createDealer = value => {
     return {
-        id: value.id,
-        name: value.name,
-        email: value.url
+        id: value ? value.id : null,
+        name: value ? value.name : null,
+        email: value ? value.url : null
     };
 };
 
@@ -68,7 +68,7 @@ export const updateDealersData = (page, per_page, dealers) => {
             const new_dealers_id = [...new Set([...filter_dealers, ...cars_dealers_id])].filter(e => e != null)
 
             if (new_dealers_id) {
-                Promise.all(new_dealers_id.map(id => getNewDealers(id))).then(
+                Promise.all(new_dealers_id.map(id => !id ? null : getNewDealers(id))).then(
                     response => {
                         const new_dealers = response.map(e => createDealer(e))
                         return new_dealers
@@ -110,7 +110,7 @@ export const mergeData = (car, ...dealers) => {
         grade: car.grade,
         vin: car.vin,
         images: car.images,
-        dealer: dealers[0] === undefined ? undefined : dealers[0].find(e => e.id === car.dealer)
+        dealer: dealers[0] === undefined ? undefined : dealers[0].find(e => e ? e.id === car.dealer : undefined)
     };
 };
 
