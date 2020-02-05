@@ -82,11 +82,11 @@ export const updateDealersData = (page, per_page, dealers) => {
     };
 };
 
-export const loadDealersData = (x_total_count) => {
+export const loadDealersData = (per_page) => {
     return dispatch => {
         axios.get("https://jlrc.dev.perx.ru/carstock/api/v1/vehicles/?state=active&hidden=false&group=new", {
             headers: {'X-CS-Dealer-Id-Only' : '1'},
-            params: { per_page: x_total_count }
+            params: { per_page: per_page }
         })
         .then(async response => {
             const data = response.data
