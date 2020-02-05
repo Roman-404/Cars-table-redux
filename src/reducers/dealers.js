@@ -14,11 +14,15 @@ const dealersData = (state=initState, action) => {
             }
         case actionTypes.UPDATE_DEALERS:
             return {
-                dealers: [...state.dealers, ...action.payload]
+                dealers: filterDealers([...state.dealers, ...action.payload])
             }
         default:
             return state;
     };
 };
+
+export const filterDealers = dealers => {
+    return  Array.from(dealers.reduce((m, t) => m.set(t.id, t), new Map()).values())
+}
 
 export default dealersData;

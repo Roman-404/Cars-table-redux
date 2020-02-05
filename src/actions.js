@@ -69,7 +69,7 @@ export const updateDealersData = (page, per_page, dealers) => {
             if (new_dealers_id) {
                 Promise.all(new_dealers_id.map(id => !id ? null : getNewDealers(id))).then(
                     response => {
-                        const new_dealers = response.map(e => createDealer(e))
+                        const new_dealers = response.map(e => e.id === dealers_id.map(e => e) ? null : createDealer(e))
                         return new_dealers
                     }
                 ).then(response => {
