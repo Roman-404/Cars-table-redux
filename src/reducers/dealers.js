@@ -21,7 +21,7 @@ const dealersData = (state=initState, action) => {
     };
 };
 
-export const filterDealers = dealers => {
+const filterDealers = dealers => {
     return  Array.from(dealers.reduce((m, t) => m.set(t.id, t), new Map()).values())
 }
 
