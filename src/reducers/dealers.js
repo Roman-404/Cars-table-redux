@@ -14,7 +14,7 @@ const dealersData = (state=initState, action) => {
             }
         case actionTypes.UPDATE_DEALERS:
             return {
-                dealers: action.payload
+                dealers: [...state.dealers, ...action.payload]
             }
         default:
             return state;
