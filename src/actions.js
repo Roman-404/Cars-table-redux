@@ -64,7 +64,7 @@ export const updateDealersData = (page, per_page, dealers) => {
             const cars_dealers_id = data.map(value => value.dealer)
             const dealers_id = dealers.map(value => value.id)
             const filter_dealers = dealers_id.filter(i => !cars_dealers_id
-                .includes(i));
+                .includes(i)).concat(cars_dealers_id.filter(i => !dealers_id.includes(i)));
             const new_dealers_id = [...new Set([...filter_dealers, ...cars_dealers_id])].filter(e => e != null)
 
             if (new_dealers_id) {
