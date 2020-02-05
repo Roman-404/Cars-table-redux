@@ -63,8 +63,9 @@ export const updateDealersData = (page, per_page, dealers) => {
             const dealers = response.dealers
             const cars_dealers_id = data.map(value => value.dealer).filter(e => e != null)
             const dealers_id = dealers.map(value => value.id).filter(e => e != null)
-            const new_dealers_id = cars_dealers_id.filter(i => !dealers_id
+            const filter_dealers = cars_dealers_id.filter(i => !dealers_id
                 .includes(i))
+            const new_dealers_id = [...new Set([...filter_dealers])]
 
             if (new_dealers_id) {
                 Promise.all(new_dealers_id.map(id => !id ? null : getNewDealers(id))).then(
