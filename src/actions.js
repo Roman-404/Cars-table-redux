@@ -39,7 +39,7 @@ export const createDealer = value => {
     return {
         id: value ? value.id : null,
         name: value ? value.name : null,
-        email: value ? value.url : null
+        url: value ? value.url : null
     };
 };
 
